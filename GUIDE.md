@@ -1,30 +1,30 @@
-# 🚀 Guía Definitiva: Next.js + Better Auth + Turso + Drizzle
+# Guía Paso a Paso: Tu Primer Sistema de Auth Profesional
 
-Esta guía está diseñada para que cualquier persona, desde cero, pueda montar un sistema de autenticación profesional y escalable.
+Bienvenido a esta guía. Mi rol como **Tech Lead** aquí es acompañarte a montar un sistema de autenticación real, paso a paso, sin vueltas. Vamos a lo importante: que el código ande y que entiendas qué está pasando detrás.
 
 ---
 
-## 📋 Requisitos Previos
+## Requisitos Previos
 
-- Tener instalado [Node.js](https://nodejs.org/) (v18+)
+- Tener instalado [Node.js](https://nodejs.org/) (v20+)
 - Tener instalado [pnpm](https://pnpm.io/installation) (`npm install -g pnpm`)
 - Una cuenta en [Turso](https://turso.tech/)
 - Una cuenta en [Google Cloud Console](https://console.cloud.google.com/)
 
 ---
 
-## 🛠️ Paso 1: Inicializar el Proyecto
+## Paso 1: Inicializar el Proyecto
 
 Crea tu proyecto Next.js con Tailwind CSS y TypeScript.
 
 ```bash
-npx create-next-app@latest my-app --typescript --tailwind --eslint
+npx create-next-app@latest my-app
 cd my-app
 ```
 
 ---
 
-## ☁️ Paso 2: Base de Datos con Turso
+## Paso 2: Base de Datos con Turso
 
 Turso es SQLite en el "edge". Es ultra rápido y tiene un nivel gratuito generoso.
 
@@ -50,7 +50,7 @@ openssl rand -base64 32
 
 ---
 
-## 📦 Paso 4: Instalar Dependencias
+## Paso 4: Instalar Dependencias
 
 Usaremos `pnpm` por su velocidad y eficiencia.
 
@@ -65,7 +65,7 @@ pnpm add -D drizzle-kit dotenv
 
 ---
 
-## 🗄️ Paso 5: Configurar Drizzle ORM
+## Paso 5: Configurar Drizzle ORM
 
 Drizzle es el puente entre tu código y Turso.
 
@@ -83,7 +83,7 @@ pnpm drizzle-kit push
 
 ---
 
-## 🛡️ Paso 6: Configurar Better Auth
+## Paso 6: Configurar Better Auth
 
 1. **Servidor (`lib/auth.ts`)**: Configura el adaptador de Drizzle y el proveedor de Google.
 2. **API Route (`app/api/auth/[...better-auth]/route.ts`)**: El endpoint que maneja todo el flujo.
@@ -91,7 +91,7 @@ pnpm drizzle-kit push
 
 ---
 
-## 🌐 Paso 7: Google Cloud Console
+## Paso 7: Google Cloud Console
 
 Para que el botón de Google funcione:
 
@@ -103,7 +103,7 @@ Para que el botón de Google funcione:
 
 ---
 
-## 🚀 Paso 8: Correr el Proyecto
+## Paso 8: Correr el Proyecto
 
 ```bash
 pnpm dev
@@ -118,3 +118,16 @@ Entra a `http://localhost:3000` y ¡listo!
 - **Ver Base de Datos:** `pnpm drizzle-kit studio --port 4984`
 - **Sincronizar tablas:** `pnpm drizzle-kit push`
 - **Limpiar dependencias:** `rm -rf node_modules pnpm-lock.yaml && pnpm install`
+
+---
+
+## 🆘 Auxilio: Solución de Problemas Comunes
+
+Si algo no funciona, no te desesperes. Aquí están los errores más comunes:
+
+| Error                      | Causa Probable                              | Solución                                                                                |
+| :------------------------- | :------------------------------------------ | :-------------------------------------------------------------------------------------- |
+| **"Invalid Callback URL"** | La URL en Google Cloud Console no coincide. | Revisa que sea exactamente `http://localhost:3000/api/auth/callback/google`.            |
+| **"Session not found"**    | El `BETTER_AUTH_URL` es incorrecto.         | Asegúrate de incluir el protocolo: `http://localhost:3000`.                             |
+| **Error de Turso (401)**   | Token de Turso expirado o incorrecto.       | Genera un nuevo token con `turso db tokens create` y actualiza tu `.env.local`.         |
+| **Proxy no redirige**      | El archivo no se llama `proxy.ts`.          | En Next.js 16, el archivo debe estar en la raíz de `my-app` y llamarse exactamente así. |

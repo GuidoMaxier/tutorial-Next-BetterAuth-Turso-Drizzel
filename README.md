@@ -1,98 +1,70 @@
 # Auth Mastery: Next.js + Better Auth + Turso + Drizzle
 
-Project status: Production Ready | Version: 1.0.0
+Project status: **Conceptual & Pedagogical** | Version: 1.0.0
+Live Demo: [https://tutorial-next-better-auth-turso-dri.vercel.app/](https://tutorial-next-better-auth-turso-dri.vercel.app/)
 
-A high-performance authentication boilerplate and tutorial implemented with the modern web stack. This repository serves as a practical guide for developers looking to implement secure, scalable, and beautiful authentication systems.
+Este repositorio no es un template cargado de herramientas, sino un **tutorial vivo**. Como Tech Lead, mi objetivo aquí es mentorar sobre el corazón de un sistema de autenticación moderno, sin el ruido de configuraciones avanzadas que suelen frustrar a quien está aprendiendo.
 
----
-
-## Technical Stack
-
-| Category            | Technology                         |
-| :------------------ | :--------------------------------- |
-| **Framework**       | Next.js 16 (App Router)            |
-| **Authentication**  | Better Auth (Google & Credentials) |
-| **Database**        | Turso (Distributed SQLite)         |
-| **ORM**             | Drizzle ORM                        |
-| **Package Manager** | PNPM                               |
-| **UI/Styling**      | Tailwind CSS 4.0 + Lucide Icons    |
+"La maestría de un senior no está en qué tan complejo puede hacer algo, sino en qué tan simple puede explicarlo."
 
 ---
 
-## Core Features
+## Propósito del Tutorial
 
-- **Social Login**: Full integration with Google OAuth.
-- **Session Management**: Secure, server-side session handling.
-- **Route Protection**: Advanced middleware (proxy) for securing sensitive pages.
-- **Edge Compatible**: Blazing fast performance using Turso's edge database.
-- **Developer Experience**: Type-safe database queries and automated migrations.
-- **Premium UI**: Clean, modern interface with glassmorphism and responsive design.
+Este proyecto está diseñado para ser **"a hueso"**. Eliminé intencionalmente capas de validación, dockerización y CI/CD para que el desarrollador pueda concentrarse en entender tres piezas clave:
 
----
-
-## Getting Started
-
-### 1. Installation
-
-Clone the repository and install dependencies using PNPM:
-
-```bash
-pnpm install
-```
-
-### 2. Environment Setup
-
-Create a `.env.local` file in the `my-app` directory. Refer to `.env.local.example` for the required keys.
-
-```bash
-# Required Keys
-TURSO_CONNECTION_URL=your_url
-TURSO_AUTH_TOKEN=your_token
-BETTER_AUTH_SECRET=your_secret
-GOOGLE_CLIENT_ID=your_id
-GOOGLE_CLIENT_SECRET=your_secret
-```
-
-### 3. Database Sync
-
-Push your schema to Turso:
-
-```bash
-cd my-app
-pnpm drizzle-kit push
-```
-
-### 4. Run Development Server
-
-```bash
-pnpm dev
-```
+1. **La Persistencia**: Cómo Drizzle habla con Turso (SQLite en el Edge).
+2. **La Seguridad**: Cómo Better Auth gestiona sesiones y proveedores sociales.
+3. **El Flujo**: Cómo Next.js 16 utiliza el nuevo patrón `proxy.ts` para proteger el acceso. Este patrón sustituye al antiguo `middleware.ts` para permitir una lógica de protección de rutas más modular, desacoplada y fácil de testear.
 
 ---
 
-## Internal Tutorial
+## Stack Técnico (Puro)
 
-The application includes a built-in interactive tutorial. Once the server is running, navigate to:
-`http://localhost:3000/tutorial`
-
-This section provides the exact code blocks used to build:
-
-- The database schema for Better Auth.
-- Server-side auth configuration.
-- The Google Login button implementation.
-- Middleware route protection.
+- **Framework**: Next.js 16 (App Router)
+- **Auth**: Better Auth (Google Providers)
+- **DB**: Turso (Distributed SQLite)
+- **ORM**: Drizzle
 
 ---
 
-## Architecture
+## Inicio Rápido
 
-- `my-app/db/`: Database schema and connection client.
-- `my-app/lib/`: Unified auth configuration and client-side hooks.
-- `my-app/app/api/auth/[...better-auth]/`: Dynamic route handler for all auth events.
-- `my-app/middleware.ts`: Global protection for secure routes.
+1. `pnpm install`
+2. Configurar `.env.local` (ver `.env.local.example`)
+3. `pnpm drizzle-kit push` (Sincronizar base de datos)
+4. `pnpm dev`
 
 ---
 
-## License
+## Para los curiosos (Roadmap de Crecimiento)
 
-MIT License - feel free to use this template for your own projects.
+Si ya entendiste la base y querés profesionalizar este proyecto, este es el camino que deberías seguir (y lo que un Tech Lead te pediría en un entorno real):
+
+- [ ] **Validación de tipos**: Implementar `Zod` para validar variables de entorno y esquemas de API.
+- [ ] **Estandarización**: Configurar un `Prettier` robusto para mantener la consistencia en el equipo.
+- [ ] **Git Hooks**: Implementar `Husky` y `lint-staged` para asegurar la calidad del código antes de que llegue al repositorio.
+- [ ] **Commits Profesionales**: Configurar `Commitlint` para seguir estándares como _Conventional Commits_.
+- [ ] **Calidad**: Endurecer las reglas de `ESLint` para evitar bugs silenciosos.
+- [ ] **Portabilidad**: Crear un `Dockerfile` para un despliegue consistente.
+- [ ] **Automatización**: Configurar `CI/CD` (e.g. GitHub Actions) para correr lints y builds automáticos.
+- [ ] **Manejo de Datos**: Explorar `TanStack Query` para gestión de estados asíncronos si la app escala.
+- [ ] **Testing**: Añadir tests de integración para el flujo de autenticación.
+
+Este tutorial es el cimiento. El resto lo construís vos.
+
+---
+
+## Tutorial Interactivo
+
+Una vez que corras el proyecto, navegá a `/tutorial` para ver los bloques de código exactos y la explicación detallada de cada paso.
+
+---
+
+## Licencia
+
+MIT - Copialo, rompelo, aprendé y enseñalo.
+
+---
+
+Creado por **Hernán Casasola** - Tech Lead & Mentor.

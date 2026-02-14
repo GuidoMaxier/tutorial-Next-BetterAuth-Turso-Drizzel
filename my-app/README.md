@@ -1,36 +1,47 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# AuthApp Implementation Details
 
-## Getting Started
+Este es el código fuente del proyecto Next.js 16 que implementa el sistema de autenticación propuesto en el tutorial general. Aquí es donde la teoría se convierte en práctica.
 
-First, run the development server:
+## Estructura del Proyecto (Tech Lead View)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+Para mantener el código limpio y mantenible, hemos organizado el proyecto siguiendo estos patrones:
+
+```text
+my-app/
+├── app/
+│   ├── api/auth/         # Endpoints dinámicos de Better Auth
+│   ├── profile/          # Ruta protegida de ejemplo
+│   ├── tutorial/         # Guía interactiva dentro de la app
+│   └── layout.tsx        # Inyección del SessionProvider y Navbar
+├── components/           # Componentes UI reutilizables (Navbar, Buttons, etc.)
+├── db/                   # Configuración de Turso y Esquemas de Drizzle
+├── lib/                  # Clientes de Auth (servidor y cliente)
+├── migrations/           # Historial de cambios en la base de datos
+└── proxy.ts              # Lógica de protección de rutas (Patrón Next.js 16)
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Piezas Clave
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1.  **`db/schema.ts`**: Aquí definimos la "forma" de nuestros datos. Es la única fuente de verdad para la base de datos.
+2.  **`lib/auth.ts`**: La configuración central. Aquí es donde Better Auth se conecta con Drizzle y Google.
+3.  **`proxy.ts`**: Nuestra aduana. Decide quién entra a `/profile` y quién es redirigido a `/unauthorized`.
+4.  **`lib/auth-client.ts`**: El puente para los componentes de React (como el `Navbar`) para saber si hay un usuario logueado.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Desarrollo Local
 
-## Learn More
+Si estás dentro de esta carpeta (`my-app`), asegúrate de tener configurado tu `.env.local` y ejecuta:
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+pnpm install
+pnpm dev
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Recuerda que para cualquier cambio en el esquema de base de datos, debes sincronizar con:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+pnpm drizzle-kit push
+```
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+_Este directorio es el Laboratorio. Aquí es donde debes experimentar, romper cosas y entender cómo fluye la data entre el cliente, el servidor y la base de datos distribuida._
